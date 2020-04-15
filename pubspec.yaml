@@ -1,0 +1,27 @@
+name: engine_auth
+description: Engine Auth
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.4.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_auth: 0.16.0
+  engine_db_utils:
+    path: ../../engine_db_utils/engine_db_utils
+  engine_utils:
+    path: ../../engine_utils/engine_utils
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+
+# The following section is specific to Flutter.
+flutter:
+
