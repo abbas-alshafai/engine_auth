@@ -8,6 +8,7 @@ class AuthUser{
   AuthUser.fromFirestore(FirebaseUser user){
     this.id = user.uid;
     this.email = user.email;
+
   }
 
 }
