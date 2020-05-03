@@ -81,14 +81,14 @@ packages:
   engine_db_utils:
     dependency: "direct main"
     description:
-      path: "../../engine_db_utils/engine_db_utils"
+      path: "../engine_db_utils"
       relative: true
     source: path
     version: "0.0.1"
   engine_utils:
     dependency: "direct main"
     description:
-      path: "../../engine_utils/engine_utils"
+      path: "../engine_utils"
       relative: true
     source: path
     version: "0.0.1"

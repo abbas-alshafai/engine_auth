@@ -1,7 +1,5 @@
 import 'package:engine_auth/models/auth_user.dart';
-//import 'package:engine_db_utils/models/log.dart';
 import 'package:engine_db_utils/models/result.dart';
-//import 'package:engine_db_utils/services/log_service.dart';
 import 'package:engine_utils/utils/string_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
