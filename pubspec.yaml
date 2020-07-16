@@ -13,10 +13,10 @@ dependencies:
   firebase_auth: 0.16.0
 
 
-   engine_db_utils:
-     git: git@bitbucket.org:firebuzz_engine/engine_db_utils.git
-   engine_utils:
-     git: git@bitbucket.org:firebuzz_engine/engine_utils.git
+  engine_db_utils:
+    git: git@bitbucket.org:firebuzz_engine/engine_db_utils.git
+  engine_utils:
+    git: git@bitbucket.org:firebuzz_engine/engine_utils.git
 
 
 
