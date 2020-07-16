@@ -1,4 +1,6 @@
 import 'package:engine_auth/models/auth_user.dart';
+import 'package:engine_auth/services/error_handler.dart';
+import 'package:engine_db_utils/models/log.dart';
 import 'package:engine_db_utils/models/result.dart';
 import 'package:engine_utils/utils/string_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +19,7 @@ abstract class AuthService{
   Future<Result<AuthUser>> signInWithEmailAndPassword({final String email,
     final String password});
   Future<Result<void>> signOut();
+  Future<Result<void>> sendPasswordResetEmail(String email);
 }
 
 
@@ -75,10 +78,15 @@ class AuthServiceImpl implements AuthService{
           : Result.success(obj: user);
 
 
-    } catch (e, stacktrace){
-      return Result.failure(
-        msg: e.toString(),
-        stacktrace: stacktrace.toString(),
+    } catch (e, stacktrace) {
+      return ErrorHandler().handleError(
+        result: Result.failure(
+          log: Log(
+
+            stacktrace: stacktrace.toString(),
+          )
+        ),
+        error: e
       );
     }
   }
@@ -106,9 +114,13 @@ class AuthServiceImpl implements AuthService{
           : Result.failure();
 
     } catch (e, stacktrace) {
-      return Result.failure(
-        msg: e.toString(),
-        stacktrace: stacktrace.toString()
+      return ErrorHandler().handleError(
+        result: Result.failure(
+          log: Log(
+            stacktrace: stacktrace.toString(),
+          )
+        ),
+        error: e
       );
     }
   }
@@ -120,9 +132,13 @@ class AuthServiceImpl implements AuthService{
       auth.signOut();
       return Result.success();
     } catch (e, stacktrace){
-      return Result.failure(
-        msg: e.toString(),
-        stacktrace: stacktrace.toString(),
+      return ErrorHandler().handleError(
+        result: Result.failure(
+          log: Log(
+            stacktrace: stacktrace.toString(),
+          )
+        ),
+        error: e
       );
     }
   }
@@ -138,4 +154,18 @@ class AuthServiceImpl implements AuthService{
     return auth.onAuthStateChanged.map(_mapUser);
   }
 
+  @override
+  Future<Result<void>> sendPasswordResetEmail(String email) async {
+    try{
+      await auth.sendPasswordResetEmail(email: email);
+      return Result.success();
+    } catch (e, stacktrace){
+      return ErrorHandler().handleError(
+        result: Result.failure(
+          msg: e.toString(),
+          stacktrace: stacktrace.toString(),
+        ),
+        error: e);
+    }
+  }
 }

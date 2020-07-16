@@ -11,13 +11,20 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_auth: 0.16.0
+
+
   engine_db_utils:
     git: git@bitbucket.org:firebuzz_engine/engine_db_utils.git
-#    path: ../engine_db_utils
-
   engine_utils:
     git: git@bitbucket.org:firebuzz_engine/engine_utils.git
+
+
+
+#  engine_db_utils:
+#    path: ../engine_db_utils
+#  engine_utils:
 #    path: ../engine_utils
+
 
 dev_dependencies:
   flutter_test:
