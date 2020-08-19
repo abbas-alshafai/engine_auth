@@ -1,5 +1,4 @@
 import 'package:engine_auth/models/auth_error_keys.dart';
-import 'package:engine_auth/models/auth_status.dart';
 import 'package:engine_auth/models/auth_user.dart';
 import 'package:engine_db_utils/models/log.dart';
 import 'package:engine_db_utils/models/result.dart';
