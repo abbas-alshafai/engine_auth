@@ -5,12 +5,12 @@ author:
 homepage:
 
 environment:
-  sdk: ">=2.9.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  firebase_auth: 0.18.0+1
+  firebase_auth: 0.18.1+2
 
 
   engine_db_utils:
