@@ -5,7 +5,7 @@ class AuthUser{
   String id;
   String email;
 
-  AuthUser.fromFirestore(FirebaseUser user){
+  AuthUser.fromFirestore(User user){
     this.id = user.uid;
     this.email = user.email;
 

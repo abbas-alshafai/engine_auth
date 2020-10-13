@@ -46,7 +46,7 @@ class AuthServiceImpl implements AuthService{
   AuthServiceImpl({@required this.auth});
 
 
-  AuthUser _mapUser(FirebaseUser user) {
+  AuthUser _mapUser(User user) {
     return user != null
         ? AuthUser.fromFirestore(user)
         : null ;
@@ -62,16 +62,19 @@ class AuthServiceImpl implements AuthService{
       assert(StringUtils.instance.isNotBlank(email));
       assert(StringUtils.instance.isNotBlank(password));
 
-      AuthResult authResult = await auth.createUserWithEmailAndPassword(
+
+
+      UserCredential credentialResult = await auth
+          .createUserWithEmailAndPassword(
           email: email,
           password: password
       );
 
 
-      if(authResult == null)
+      if(credentialResult == null)
         return Result.failure(msg: errNull);
 
-      AuthUser user = _mapUser(authResult.user);
+      AuthUser user = _mapUser(credentialResult.user);
 
       return user == null
           ? Result.failure(msg: errNull)
@@ -83,7 +86,7 @@ class AuthServiceImpl implements AuthService{
         result: Result.failure(
           log: Log(
 
-            stacktrace: stacktrace.toString(),
+            stacktrace: stacktrace,
           )
         ),
         error: e
@@ -101,13 +104,14 @@ class AuthServiceImpl implements AuthService{
       assert(StringUtils.instance.isNotBlank(email));
       assert(StringUtils.instance.isNotBlank(password));
 
-      AuthResult authResult = await auth
+
+      UserCredential credentialResult = await auth
           .signInWithEmailAndPassword(email: email, password: password);
 
-      if(authResult == null || authResult.user == null)
+      if(credentialResult == null || credentialResult.user == null)
         return Result.failure();
 
-      AuthUser user = AuthUser.fromFirestore(authResult.user);
+      AuthUser user = AuthUser.fromFirestore(credentialResult.user);
 
       return user != null
           ? Result.success(obj: user)
@@ -117,7 +121,7 @@ class AuthServiceImpl implements AuthService{
       return ErrorHandler().handleError(
         result: Result.failure(
           log: Log(
-            stacktrace: stacktrace.toString(),
+            stacktrace: stacktrace
           )
         ),
         error: e
@@ -135,7 +139,7 @@ class AuthServiceImpl implements AuthService{
       return ErrorHandler().handleError(
         result: Result.failure(
           log: Log(
-            stacktrace: stacktrace.toString(),
+            stacktrace: stacktrace
           )
         ),
         error: e
@@ -151,7 +155,7 @@ class AuthServiceImpl implements AuthService{
 
   @override
   Stream<AuthUser> get user {
-    return auth.onAuthStateChanged.map(_mapUser);
+    return auth.authStateChanges().map(_mapUser);
   }
 
   @override
@@ -163,7 +167,7 @@ class AuthServiceImpl implements AuthService{
       return ErrorHandler().handleError(
         result: Result.failure(
           msg: e.toString(),
-          stacktrace: stacktrace.toString(),
+          stacktrace: stacktrace
         ),
         error: e);
     }
