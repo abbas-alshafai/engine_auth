@@ -1,6 +1,7 @@
 import 'package:engine_auth/models/auth_error_keys.dart';
 import 'package:engine_auth/models/auth_user.dart';
 import 'package:engine_db_utils/models/log.dart';
+import 'package:engine_db_utils/models/log_message.dart';
 import 'package:engine_db_utils/models/result.dart';
 
 
@@ -59,7 +60,7 @@ class ErrorHandler{
         errorMessage = "An undefined Error happened.";
     }
 
-    result.log.errorCodes = [code];
+    result.log.logMessages= [LogMessage(code: code)];
     result.log.translationKey = code;
     result.log.msg = errorMessage;
     return result;
