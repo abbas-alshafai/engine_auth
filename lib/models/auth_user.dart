@@ -8,7 +8,6 @@ class AuthUser{
   AuthUser.fromFirestore(User user){
     this.id = user.uid;
     this.email = user.email;
-
   }
 
 }

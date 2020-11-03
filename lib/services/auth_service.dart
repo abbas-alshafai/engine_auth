@@ -20,6 +20,8 @@ abstract class AuthService{
     final String password});
   Future<Result<void>> signOut();
   Future<Result<void>> sendPasswordResetEmail(String email);
+  Future<Result<AuthUser>> signInAnonymously();
+
 }
 
 
@@ -130,6 +132,8 @@ class AuthServiceImpl implements AuthService{
   }
 
 
+
+
   @override
   Future<Result> signOut() async {
     try{
@@ -170,6 +174,30 @@ class AuthServiceImpl implements AuthService{
           stacktrace: stacktrace
         ),
         error: e);
+    }
+  }
+
+  @override
+  Future<Result<AuthUser>> signInAnonymously() async {
+    try {
+      UserCredential signInResult = await auth.signInAnonymously();
+
+      if(signInResult == null || signInResult.user == null)
+        return Result.failure();
+
+      AuthUser user = AuthUser.fromFirestore(signInResult.user);
+
+      return user != null ? Result.success(obj: user) : Result.failure();
+
+    } catch (e, stacktrace) {
+      return ErrorHandler().handleError(
+          result: Result.failure(
+              log: Log(
+                  stacktrace: stacktrace
+              )
+          ),
+          error: e
+      );
     }
   }
 }
