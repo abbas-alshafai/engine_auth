@@ -5,6 +5,7 @@ import 'package:engine_db_utils/models/result.dart';
 import 'package:engine_utils/utils/string_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 const String errNull = "Got a null auth user from backend";
 
@@ -21,6 +22,9 @@ abstract class AuthService{
   Future<Result<void>> signOut();
   Future<Result<void>> sendPasswordResetEmail(String email);
   Future<Result<AuthUser>> signInAnonymously();
+  Future<Result<AuthUser>> signInWithGoogle();
+  Future<Result<AuthUser>> convertUserWithEmail({@required final String email,
+    @required final String password});
 
 }
 
@@ -42,7 +46,7 @@ class AuthServiceFactory{
 class AuthServiceImpl implements AuthService{
 
   final FirebaseAuth auth;
-//  final LogService logger = LoggerFactory.instance.getLogger();
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 
   AuthServiceImpl({@required this.auth});
@@ -96,6 +100,54 @@ class AuthServiceImpl implements AuthService{
     }
   }
 
+  @override
+  Future<Result<AuthUser>> convertUserWithEmail({@required final String email,
+    @required final String password}) async{
+    try{
+
+      final User currentUser = auth.currentUser;
+      final AuthCredential credential = EmailAuthProvider
+          .credential(email: email, password: password);
+
+      User user = (await currentUser.linkWithCredential(credential)).user;
+
+      return Result.success(obj: _mapUser(user));
+    }
+    catch(e, stacktrace){
+      return ErrorHandler().handleError(
+          result: Result.failure(
+              log: Log(
+                  stacktrace: stacktrace
+              )
+          ),
+          error: e
+      );
+    }
+  }
+
+  @override
+  Future<Result<AuthUser>> signInWithGoogle() async{
+    try{
+      final GoogleSignInAccount account = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await account.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+        accessToken: googleAuth.accessToken
+      );
+      User fbUser = (await auth.signInWithCredential(credential)).user;
+      return Result.success(obj: _mapUser(fbUser));
+    }
+    catch(e, stacktrace){
+      return ErrorHandler().handleError(
+          result: Result.failure(
+              log: Log(
+                  stacktrace: stacktrace
+              )
+          ),
+          error: e
+      );
+    }
+  }
 
 
   @override
