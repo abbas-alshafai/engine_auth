@@ -134,8 +134,8 @@ class AuthServiceImpl implements AuthService{
         idToken: googleAuth.idToken,
         accessToken: googleAuth.accessToken
       );
-      User fbUser = (await auth.signInWithCredential(credential)).user;
-      return Result.success(obj: _mapUser(fbUser));
+      User user = (await auth.signInWithCredential(credential)).user;
+      return Result.success(obj: _mapUser(user));
     }
     catch(e, stacktrace){
       return ErrorHandler().handleError(
