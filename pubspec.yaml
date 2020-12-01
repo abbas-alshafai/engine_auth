@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_auth: 0.18.2
-
+  google_sign_in: 4.5.6
 
   engine_db_utils:
     git: git@bitbucket.org:firebuzz_engine/engine_db_utils.git
