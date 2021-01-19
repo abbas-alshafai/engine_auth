@@ -25,7 +25,7 @@ abstract class AuthService{
   Future<Result<AuthUser>> signInWithGoogle();
   Future<Result<AuthUser>> convertUserWithEmail({@required final String email,
     @required final String password});
-
+  FirebaseAuth getFbAuth();
 }
 
 
@@ -51,6 +51,7 @@ class AuthServiceImpl implements AuthService{
 
   AuthServiceImpl({@required this.auth});
 
+  FirebaseAuth getFbAuth() => auth;
 
   AuthUser _mapUser(User user) {
     return user != null
