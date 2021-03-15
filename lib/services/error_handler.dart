@@ -7,10 +7,7 @@ import 'package:engine_db_utils/models/result.dart';
 
 
 class ErrorHandler{
-  Result<AuthUser> handleError({Result<AuthUser> result, error}){
-
-    if(result == null)
-      result = Result.failure();
+  Result<AuthUser> handleError({required Result<AuthUser> result, error}){
 
     if(error == null)
       return result;
@@ -20,7 +17,6 @@ class ErrorHandler{
 
     String errorMessage;
     String code;
-
 
     switch (error.code) {
       case "ERROR_NETWORK_ERROR":
@@ -60,9 +56,14 @@ class ErrorHandler{
         errorMessage = "An undefined Error happened.";
     }
 
-    result.log.logMessages= [LogMessage(code: code)];
-    result.log.translationKey = code;
-    result.log.msg = errorMessage;
+    if(result.log == null)
+      result.log = Log();
+
+    result.log!.logMessages= [
+      LogMessage(actionCode: code,
+          msg: errorMessage)];
+    result.log!.translationKey = code;
+    result.log!.msg = errorMessage;
     return result;
   }
 }
