@@ -37,9 +37,13 @@ class AuthController extends StateNotifier<AuthUser?> {
     super.dispose();
   }
 
+  Future<Result<AuthUser?>> get currentAuthUser async{
+    return await _reader(authServiceProvider).currentAuthUser;
+  }
+
   void appStarted() async {
     // final user = _reader(authRepoProvider).currentUser;
-    final result = await _reader(authServiceProvider).currentUser;
+    final result = await _reader(authServiceProvider).currentAuthUser;
 
     if (activateAnonymousUsers && result.obj == null)
       await _reader(authServiceProvider).signInAnonymously();

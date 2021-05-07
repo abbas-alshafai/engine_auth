@@ -19,7 +19,7 @@ final authServiceProvider =
 abstract class AuthService {
   Stream<AuthUser?> get user;
 
-  Future<Result<AuthUser?>> get currentUser;
+  Future<Result<AuthUser?>> get currentAuthUser;
 
   AuthUser? mapFbUser(User? u);
 
@@ -217,7 +217,7 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<Result<AuthUser?>> get currentUser async {
+  Future<Result<AuthUser?>> get currentAuthUser async {
     try {
       final fbUser = _reader(authRepoProvider).currentUser;
       return Result.success(obj: _mapUser(fbUser));
