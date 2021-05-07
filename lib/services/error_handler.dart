@@ -64,6 +64,7 @@ class ErrorHandler{
           msg: errorMessage)];
     result.log!.translationKey = code;
     result.log!.msg = errorMessage;
+
     return result;
   }
 }
