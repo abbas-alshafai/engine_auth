@@ -1,5 +1,6 @@
 library engine_auth;
 
+// TODO remove
 /// A Calculator.
 class Calculator {
   /// Returns [value] plus 1.

@@ -13,7 +13,7 @@ const String errNull = "Got a null auth user from backend";
 
 
 final authServiceProvider =
-    Provider<AuthService>((ref) => AuthServiceImpl(ref.read));
+Provider<AuthService>((ref) => AuthServiceImpl(ref.read));
 
 
 abstract class AuthService {
@@ -39,29 +39,16 @@ abstract class AuthService {
 
   Future<Result<AuthUser>> convertUserWithEmail(
       {required final String email, required final String password});
-// FirebaseAuth getFbAuth();
 }
 
-/// TODO: deprecated as we are using [authServiceProvider]
-/*
-class AuthServiceFactory {
-  AuthServiceFactory._();
-
-  static final AuthServiceFactory instance = AuthServiceFactory._();
-
-  AuthService getService() {
-    return AuthServiceImpl(authRepoProvider);
-  }
-}
- */
 
 class AuthServiceImpl implements AuthService {
+
+
   final Reader _reader;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   AuthServiceImpl(this._reader);
-
-  // FirebaseAuth getFbAuth() => auth;
 
   AuthUser? _mapUser(User? user) {
     if (user == null) return null;
@@ -71,7 +58,7 @@ class AuthServiceImpl implements AuthService {
 
   @override
   Future<Result<AuthUser>> registerWithEmailAndPassword(
-      {required final String email, required final String password}) async {
+      {required final String email, required final String password,}) async {
     try {
       assert(StringUtils.instance.isNotBlank(email));
       assert(StringUtils.instance.isNotBlank(password));
@@ -86,11 +73,12 @@ class AuthServiceImpl implements AuthService {
       return Result.success(obj: user);
     } catch (e, stacktrace) {
       return ErrorHandler().handleError(
-          result: Result.failure(
-              log: Log(
+        result: Result.failure(
+          log: Log(
+            msg: e.toString(),
             stacktrace: stacktrace,
-          )),
-          error: e);
+          ),),
+        error: e,);
     }
   }
 
@@ -103,7 +91,7 @@ class AuthServiceImpl implements AuthService {
 
       final User currentUser = _reader(authRepoProvider).currentUser!;
       final AuthCredential credential =
-          EmailAuthProvider.credential(email: email, password: password);
+      EmailAuthProvider.credential(email: email, password: password);
 
       User? user = (await currentUser.linkWithCredential(credential)).user;
       if (user == null)
@@ -129,7 +117,7 @@ class AuthServiceImpl implements AuthService {
                 ' in a null value.');
 
       final GoogleSignInAuthentication googleAuth =
-          await account.authentication;
+      await account.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
 
@@ -151,7 +139,7 @@ class AuthServiceImpl implements AuthService {
   @override
   Future<Result> signOut() async {
     try {
-      _reader(authRepoProvider).signOut();
+      await _reader(authRepoProvider).signOut();
       return Result.success();
     } catch (e, stacktrace) {
       return ErrorHandler().handleError(
@@ -180,12 +168,12 @@ class AuthServiceImpl implements AuthService {
   Future<Result<AuthUser>> signInAnonymously() async {
     try {
       UserCredential signInResult =
-          await _reader(authRepoProvider).signInAnonymously();
+      await _reader(authRepoProvider).signInAnonymously();
 
       if (signInResult.user == null) return Result.failure();
 
       AuthUser user =
-          AuthUser(id: signInResult.user!.uid, email: signInResult.user!.email);
+      AuthUser(id: signInResult.user!.uid, email: signInResult.user!.email);
 
       return Result.success(obj: user);
     } catch (e, stacktrace) {
@@ -212,7 +200,8 @@ class AuthServiceImpl implements AuthService {
       return Result.success(obj: user);
     } catch (e, stacktrace) {
       return ErrorHandler().handleError(
-          result: Result.failure(log: Log(stacktrace: stacktrace)), error: e);
+          result: Result.failure(
+            log: Log(msg: e.toString(), stacktrace: stacktrace),), error: e);
     }
   }
 
