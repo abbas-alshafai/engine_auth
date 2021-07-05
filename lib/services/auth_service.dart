@@ -12,8 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 const String errNull = "Got a null auth user from backend";
 
 
-final authServiceProvider =
-Provider<AuthService>((ref) => AuthServiceImpl(ref.read));
+final authServiceProvider = Provider<AuthService>((ref) => AuthServiceImpl(ref.read));
 
 
 abstract class AuthService {
@@ -21,7 +20,7 @@ abstract class AuthService {
 
   Future<Result<AuthUser?>> get currentAuthUser;
 
-  AuthUser? mapFbUser(User? u);
+  AuthUser? toAuthUser(User? u);
 
   Future<Result<AuthUser>> registerWithEmailAndPassword(
       {required String email, required String password});
@@ -217,7 +216,7 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  AuthUser? mapFbUser(User? u) {
+  AuthUser? toAuthUser(User? u) {
     return _mapUser(u);
   }
 }
