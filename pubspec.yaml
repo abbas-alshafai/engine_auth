@@ -11,10 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_auth:
-  google_sign_in: ^5.0.0
+  google_sign_in: 5.2.1
 
   hooks_riverpod:
-#  freezed_annotation:
 
   engine_db_utils:
     git:
