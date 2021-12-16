@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_auth:
-  google_sign_in: 5.2.1
+  google_sign_in:
 
   hooks_riverpod:
 
