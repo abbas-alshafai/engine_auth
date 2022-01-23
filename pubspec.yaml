@@ -1,6 +1,6 @@
 name: engine_auth
 description: Engine Auth
-version: 0.0.2
+version: 0.0.3
 author:
 homepage:
 
@@ -15,10 +15,10 @@ dependencies:
 
   hooks_riverpod:
 
-  engine_db_utils:
-    git:
-      ref: master
-      url: git@bitbucket.org:firebuzz_engine/engine_db_utils.git
+#  engine_db_utils:
+#    git:
+#      ref: master
+#      url: git@bitbucket.org:firebuzz_engine/engine_db_utils.git
   engine_utils:
     git:
       ref: master

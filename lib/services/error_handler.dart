@@ -1,19 +1,14 @@
 import 'package:engine_auth/models/auth_error_keys.dart';
 import 'package:engine_auth/models/auth_user.dart';
-import 'package:engine_db_utils/models/log.dart';
-import 'package:engine_db_utils/models/log_message.dart';
-import 'package:engine_db_utils/models/result.dart';
 
 
 
 class ErrorHandler{
-  Result<AuthUser> handleError({required Result<AuthUser> result, error}){
+  AuthUser handleError({required AuthUser result, error}){
 
     if(error == null)
       return result;
 
-    if(result.log == null)
-      result.log = Log();
 
     String errorMessage;
     String code;
@@ -55,15 +50,6 @@ class ErrorHandler{
         code = AuthErrorKeys.auth_undefined;
         errorMessage = "An undefined Error happened.";
     }
-
-    if(result.log == null)
-      result.log = Log();
-
-    result.log!.logMessages= [
-      LogMessage(actionCode: code,
-          msg: errorMessage)];
-    result.log!.translationKey = code;
-    result.log!.msg = errorMessage;
 
     return result;
   }
