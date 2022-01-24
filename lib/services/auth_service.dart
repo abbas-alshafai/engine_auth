@@ -1,6 +1,5 @@
 import 'package:engine_auth/models/auth_user.dart';
 import 'package:engine_auth/services/auth_provider.dart';
-import 'package:engine_auth/services/error_handler.dart';
 import 'package:engine_utils/utils/string_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -46,7 +45,7 @@ class AuthServiceImpl implements AuthService {
   AuthUser _mapUser(User? user) {
     if(StringUtils.instance.isBlank(user?.email) || StringUtils.instance.isBlank(user?.uid))
       throw ArgumentError("_mapUser user's email and/or uid is blank");
-    return AuthUser(id: user!.uid, email: user!.email);
+    return AuthUser(id: user!.uid, email: user.email);
   }
 
   @override

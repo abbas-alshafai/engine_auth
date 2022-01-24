@@ -1,8 +1,8 @@
 name: engine_auth
 description: Engine Auth
 version: 0.0.3
-author:
-homepage:
+#author:
+#homepage:
 
 environment:
   sdk: ">=2.12.0-0 <3.0.0"
