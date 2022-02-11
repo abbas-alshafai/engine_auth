@@ -42,11 +42,7 @@ class AuthServiceImpl implements AuthService {
 
   AuthServiceImpl(this._reader);
 
-  AuthUser _mapUser(User? user) {
-    if(StringUtils.instance.isBlank(user?.email) || StringUtils.instance.isBlank(user?.uid))
-      throw ArgumentError("_mapUser user's email and/or uid is blank");
-    return AuthUser(id: user!.uid, email: user.email);
-  }
+  AuthUser _mapUser(User? user) => AuthUser(id: user?.uid, email: user?.email);
 
   @override
   Future<AuthUser> registerWithEmailAndPassword({
